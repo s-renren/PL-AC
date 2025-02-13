@@ -7,10 +7,10 @@ const readerD313 = require("readline").createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-reader.on("line", (line: string) => {
+readerD313.on("line", (line: string) => {
   linesD313.push(line);
 });
-reader.on("close", () => {
+readerD313.on("close", () => {
   let sum: number = 0;
   linesD313.forEach((line) => {
     sum += Number(line);
