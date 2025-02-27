@@ -1,5 +1,5 @@
 process.stdin.resume();
-process.stdin.setEncoding('utf8');
+process.stdin.setEncoding("utf8");
 // 自分の得意な言語で
 // Let's チャレンジ！！
 
@@ -14,3 +14,4 @@ process.stdin.setEncoding('utf8');
 // reader.on('close', () => {
 //   console.log(lines[0]);
 // });
+// console.log('ready');
