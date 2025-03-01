@@ -14,4 +14,3 @@ process.stdin.setEncoding("utf8");
 // reader.on('close', () => {
 //   console.log(lines[0]);
 // });
-// console.log('ready');
