@@ -1,4 +1,4 @@
-function MainBB31(input: string) {
+function MainB31(input: string) {
   const result = input.split("\n");
   const n = Number(result[0]);
   const arr: number[][] = [...Array(n)].map(() => [...Array(n)].map(() => 0));
@@ -28,5 +28,5 @@ function MainBB31(input: string) {
     console.log(a.join(""));
   });
 }
-MainBB31(require("fs").readFileSync("/dev/stdin", "utf8"));
-// MainBB31(`2`);
+MainB31(require("fs").readFileSync("/dev/stdin", "utf8"));
+// MainB31(`2`);

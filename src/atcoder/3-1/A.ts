@@ -1,4 +1,4 @@
-function MainAA31(input: string) {
+function MainA31(input: string) {
   const result = input.split("\n");
   const n = Number(result[0]);
   const a = result[1].split(" ").map(Number);
@@ -10,7 +10,7 @@ function MainAA31(input: string) {
   }
   console.log("Yes");
 }
-MainAA31(require("fs").readFileSync("/dev/stdin", "utf8"));
-// MainAA31(`10
+MainA31(require("fs").readFileSync("/dev/stdin", "utf8"));
+// MainA31(`10
 // 1 1 2 3 5 8 13 21 34 55
 // `);

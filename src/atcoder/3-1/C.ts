@@ -1,4 +1,4 @@
-function MainCC31(input: string) {
+function MainC31(input: string) {
   const result = input.split("\n");
   let a = result[1].split(" ").map(Number);
   if (isDuplicated(a)) {
@@ -23,7 +23,7 @@ const isDuplicated = (elements: number[]): boolean => {
   const setElements = new Set(elements);
   return setElements.size !== elements.length;
 };
-MainCC31(require("fs").readFileSync("/dev/stdin", "utf8"));
-// MainCC31(`10
+MainC31(require("fs").readFileSync("/dev/stdin", "utf8"));
+// MainC31(`10
 // 1 1 2 3 5 8 13 21 34 55
 // `);
