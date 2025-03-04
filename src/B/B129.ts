@@ -1,15 +1,19 @@
 process.stdin.resume();
 process.stdin.setEncoding("utf8");
-const linesPlB129: string[] = [
-  "3 2",
-  "2 4",
-  "1 2 3 4 1",
-  "1 1 1 4 2",
-  "1 2 2 3 1",
-];
+// const linesPlB129: string[] = [
+//   "7 4",
+//   "1 10",
+//   "1 1 1 9 4",
+//   "1 1 2 3 3",
+//   "1 1 7 9 1",
+//   "1 1 4 7 3",
+//   "1 1 2 3 2",
+//   "1 1 1 3 1",
+//   "1 1 3 3 3",
+// ];
 // a b c d e
 
-// const linesPlB129: string[] = [];
+const linesPlB129: string[] = [];
 
 const readerPlB129 = require("readline").createInterface({
   input: process.stdin,
@@ -39,12 +43,25 @@ readerPlB129.on("close", () => {
       }
     }
   }
+  harvest = harvest.sort((a, b) => a - b);
   const map = harvest.reduce(
     (acc, curr) => acc.set(curr, (acc.get(curr) || 0) + 1),
     new Map()
   );
-  const res = [...map.values()].sort((a, b) => b - a);
-  console.log(arr);
-  
+  const res = [...map.entries()];
+  let resArr = "";
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr[i].length; j++) {
+      if (arr[i][j] === 0) {
+        resArr += ".";
+      } else {
+        resArr += arr[i][j];
+      }
+    }
+    resArr += "\n";
+  }
+  for (let i = 0;i<res.length;i++){
+    console.log(res[i][1])
+  }
   console.log(resArr);
 });
