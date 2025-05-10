@@ -11,6 +11,10 @@
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
 
+  "github.copilot.enable": {
+    "*": false
+  },
+
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "files.trimFinalNewlines": true,
