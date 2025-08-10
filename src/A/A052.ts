@@ -1,7 +1,7 @@
 process.stdin.resume();
 process.stdin.setEncoding("utf8");
-const linesPlA052: string[] = ["15", "4 6"];
-// const linesPlA052: string[] = [];
+// const linesPlA052: string[] = ["15", "4 6"];
+const linesPlA052: string[] = [];
 
 const readerPlA052 = require("readline").createInterface({
   input: process.stdin,
@@ -16,36 +16,20 @@ readerPlA052.on("close", () => {
   const [A, B] = linesPlA052[1].split(" ").map(Number);
   const line: number[] = Array(N + 1).fill(0);
 
-  const Adan = (n: number) => {
-    //Aの倍数
-    for (let i = 0; i < Math.floor(N - n / A); i++) {
-      if (line[n + i + 1] * A === 0) {
-        line[(n + i + 1) * A] = 1;
-        // Bdan(n + i + 1);
-        if (line[(n + i + 1) * A + B]) {
-          line[(n + i + 1) * A + B] = 1;
-          // Adan(n + i + 1);
-        }
-      }
+  const dan = (n: number) => {
+    console.log(n);
+    if (n > N || line[n] === 1) return;
+    if (n < N) {
+      line[n] = 1;
+      dan(n + A);
+      dan(n + B);
     }
   };
-  //Bの倍数
-  const Bdan = (n: number) => {
-    for (let i = 0; i < Math.floor(N - n / B); i++) {
-      if (line[(n + i + 1) * B] === 0) {
-        line[(n + i + 1) * B] = 1;
-        // Adan(n + i + 1);
-        if (line[(n + i + 1) * B + A]) {
-          if (line[(n + i + 1) * B + A] === 0) {
-            line[(n + i + 1) * B + A] = 1;
-            // Bdan(n + i + 1);
-          }
-        }
-      }
-    }
-  };
-  Adan(0);
-  Bdan(0);
+
+  for (let i = 0; i < N; i++) {
+    dan((i + 1) * A);
+    dan((i + 1) * B);
+  }
 
   //最後の段を埋める
   line[0] = 1;
