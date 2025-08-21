@@ -1,7 +1,7 @@
 process.stdin.resume();
 process.stdin.setEncoding("utf8");
-// const linesPlB128: string[] = ["123456"];
-const linesPlB128: string[] = [];
+const linesPlB128: string[] = ["123456"];
+// const linesPlB128: string[] = [];
 
 const readerPlB128 = require("readline").createInterface({
   input: process.stdin,
@@ -18,16 +18,25 @@ readerPlB128.on("close", () => {
   const blocksPerRow = digits.length / 3;
 
   // --- 各数字から3x3ブロックを生成 ---
+  // function createBlock(num: number): string[][] {
+  //   const block = Array.from({ length: 3 }, () => Array(3).fill("."));
+
+  //   for (let filled = 0; filled < num; filled++) {
+  //     const row = Math.floor(filled / 3);
+  //     const col = filled % 3;
+  //     block[row][col] = "#";
+  //   }
+
+  //   return block;
+  // }
   function createBlock(num: number): string[][] {
-    const block = Array.from({ length: 3 }, () => Array(3).fill("."));
-
-    for (let filled = 0; filled < num; filled++) {
-      const row = Math.floor(filled / 3);
-      const col = filled % 3;
-      block[row][col] = "#";
-    }
-
-    return block;
+    return Array.from({ length: 9 }, (_, i) => (i < num ? "#" : ".")).reduce(
+      (box, crr, i, arr) => {
+        if (i % 3 === 0) box.push(arr.slice(i, i + 3));
+        return box;
+      },
+      [] as string[][]
+    );
   }
 
   // --- すべての数字をブロック化 ---
