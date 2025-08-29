@@ -1,14 +1,14 @@
 process.stdin.resume();
 process.stdin.setEncoding("utf8");
-// const linesPlA078: string[] = [
-//   "5",
-//   ".214.",
-//   "1321.",
-//   "33311",
-//   "13214",
-//   "33324",
-// ];
-const linesPlA078: string[] = [];
+const linesPlA078: string[] = [
+  "5",
+  ".214.",
+  "1321.",
+  "33311",
+  "13214",
+  "33324",
+];
+// const linesPlA078: string[] = [];
 
 const readerPlA078 = require("readline").createInterface({
   input: process.stdin,
@@ -55,74 +55,64 @@ const dir = [
   [0, 1],
 ];
 
-const deleteFlow = (nowBoard: number[][]): number[][] => {
-  const canDelete: number[][] = [];
-  nowBoard.forEach((row, y) => {
-    row.forEach((_, x) => {
-      if (checkDelete(nowBoard, x, y)) {
-        canDelete.push([x, y]);
-      }
-    });
-  });
-  canDelete.forEach((i) => {
-    const [x, y] = i;
-    deleteBlock(nowBoard, x, y);
-  });
-  return dropBlock(nowBoard);
+const cloneBoard = (board: number[][]): number[][] =>
+  board.map((row) => [...row]);
+
+const forEachCell = (board: number[][], fn: (x: number, y: number) => void) => {
+  board.forEach((row, y) => row.forEach((_, x) => fn(x, y)));
 };
 
-const dropBlock = (nowBoard: number[][]): number[][] => {
-  for (let i = 0; i < nowBoard.length; i++) {
-    for (let line = nowBoard.length - 1; line > 0; line--) {
-      for (let x = 0; x < 5; x++) {
-        if (nowBoard[line][x] === 0 && nowBoard[line - 1][x] !== 0) {
-          nowBoard[line][x] = nowBoard[line - 1][x];
-          nowBoard[line - 1][x] = 0;
-        }
-      }
-    }
-  }
-  return nowBoard;
-};
-
-const deleteBlock = (nowBoard: number[][], x: number, y: number) => {
-  nowBoard[y][x] = 0;
-  dir.forEach((p) => {
-    const [dx, dy] = p;
-    if (nowBoard[y + dy]?.[x + dx]) {
-      nowBoard[y + dy][x + dx] = 0;
-    }
-  });
-};
-
-const checkDelete = (nowBoard: number[][], x: number, y: number): boolean => {
+const checkDelete = (board: number[][], x: number, y: number): boolean => {
   let score = 0;
-  if (x === 0 || x === 4) {
-    score += 1;
+  if (x === 0 || x === board[0].length - 1) score++;
+  if (y === 0 || y === board.length - 1) score++;
+
+  for (const [dx, dy] of dir) {
+    if (board[y + dy]?.[x + dx] === board[y][x]) {
+      score++;
+    }
   }
-  if (y === 0 || y === nowBoard.length - 1) {
-    score += 1;
+  return score === 4;
+};
+
+const deleteBlock = (board: number[][], x: number, y: number) => {
+  board[y][x] = 0;
+  for (const [dx, dy] of dir) {
+    if (board[y + dy]?.[x + dx]) {
+      board[y + dy][x + dx] = 0;
+    }
   }
-  dir.forEach((p) => {
-    const [dx, dy] = p;
-    if (nowBoard[y + dy]?.[x + dx]) {
-      if (nowBoard[y][x] === nowBoard[y + dy][x + dx]) {
-        score += 1;
-      }
+};
+
+const dropBlock = (board: number[][]): number[][] => {
+  const H = board.length,
+    W = board[0].length;
+  for (let x = 0; x < W; x++) {
+    const column = [];
+    for (let y = 0; y < H; y++) {
+      if (board[y][x] !== 0) column.push(board[y][x]);
+    }
+    // 上から埋め直す
+    for (let y = H - 1; y >= 0; y--) {
+      board[y][x] = column.pop() ?? 0;
+    }
+  }
+  return board;
+};
+
+const deleteFlow = (board: number[][]): number[][] => {
+  const next = cloneBoard(board);
+  const toDelete: [number, number][] = [];
+
+  forEachCell(board, (x, y) => {
+    if (board[y][x] !== 0 && checkDelete(board, x, y)) {
+      toDelete.push([x, y]);
     }
   });
 
-  if (score === 4) {
-    return true;
-  } else {
-    return false;
-  }
+  toDelete.forEach(([x, y]) => deleteBlock(next, x, y));
+  return dropBlock(next);
 };
 
-const countZero = (board: number[][]): number => {
-  let res = 0;
-  board.forEach((i) => {
-    res += i.filter((n) => n === 0).length;
-  });
-  return res;
-};
+const countZero = (board: number[][]): number =>
+  board.reduce((acc, row) => acc + row.filter((n) => n === 0).length, 0);
